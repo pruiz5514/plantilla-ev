@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/provider";
 import StyledComponentsRegistry from "./StyledComponentsRegistry";
+import SessionAuthProvider from "@/context/SessionAuthProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,9 +23,11 @@ export default function RootLayout({
         className={roboto.className}
       >
         <StyledComponentsRegistry>
-          <Providers>
-            {children}
-          </Providers>
+          <SessionAuthProvider>
+            <Providers>
+              {children}
+            </Providers>
+          </SessionAuthProvider>
         </StyledComponentsRegistry>
         
         
