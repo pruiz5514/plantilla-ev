@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "@/redux/provider";
 import StyledComponentsRegistry from "./StyledComponentsRegistry";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
+import { NextIntlClientProvider } from "next-intl";
+import {getLocale, getMessages} from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,22 +14,31 @@ export const metadata: Metadata = {
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "700","900"], });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const locale = await getLocale();
+ 
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={roboto.className}
       >
         <StyledComponentsRegistry>
-          <SessionAuthProvider>
-            <Providers>
-              {children}
-            </Providers>
-          </SessionAuthProvider>
+          <NextIntlClientProvider messages={messages}>
+            <SessionAuthProvider>
+              <Providers>
+                {children}
+              </Providers>
+            </SessionAuthProvider>
+          </NextIntlClientProvider>
         </StyledComponentsRegistry>
         
         
