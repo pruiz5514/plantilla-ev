@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/provider";
+import StyledComponentsRegistry from "./StyledComponentsRegistry";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,9 +21,12 @@ export default function RootLayout({
       <body
         className={roboto.className}
       >
-        <Providers>
-          {children}
-        </Providers>
+        <StyledComponentsRegistry>
+          <Providers>
+            {children}
+          </Providers>
+        </StyledComponentsRegistry>
+        
         
       </body>
     </html>
